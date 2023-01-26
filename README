@@ -1,0 +1,9 @@
+rgb-led-test.sh
+^^^^^^^^^^^^^^^
+a bash script to exercise the RGB led on the Nezha-D1
+make sure the following is enabled in the kernel:
+	CONFIG_LEDS_SUN50I_A100
+
+license:
+	SPDX-License-Identifier: OSL-3.0
+	Copyright (C) 2023  Trevor Woerner <twoerner@gmail.com>
