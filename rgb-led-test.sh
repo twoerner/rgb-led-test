@@ -19,16 +19,26 @@ trap cleanup EXIT
 echo oneshot > $BASEDIR/trigger
 echo 32 > $BASEDIR/brightness
 
-COLORS=( $(($RANDOM % 255)) $(($RANDOM % 255)) $(($RANDOM % 255)) )
-DIRECTIONS=("down" "up" "up")
-COLORSTEPS=( $((($RANDOM % 15)+5)) $((($RANDOM % 15)+5)) $((($RANDOM % 15)+5)) )
+declare -A COLORS
+declare -A DIRECTIONS
+declare -A COLORSTEPS
+
+COLORS[RED]=$(($RANDOM % 255))
+COLORS[GRN]=$(($RANDOM % 255))
+COLORS[BLU]=$(($RANDOM % 255))
+DIRECTIONS[RED]="up"
+DIRECTIONS[GRN]="down"
+DIRECTIONS[BLU]="down"
+COLORSTEPS[RED]=$((($RANDOM % 15)+5))
+COLORSTEPS[GRN]=$((($RANDOM % 15)+5))
+COLORSTEPS[BLU]=$((($RANDOM % 15)+5))
 
 while [ 1 ]; do
-	#echo "RED:${COLORS[0]} GRN:${COLORS[1]} BLU:${COLORS[2]} (${DIRECTIONS[0]},${DIRECTIONS[1]},${DIRECTIONS[2]}) (${COLORSTEPS[0]},${COLORSTEPS[1]},${COLORSTEPS[2]})"
-	echo "${COLORS[0]} ${COLORS[1]} ${COLORS[2]}" > $BASEDIR/multi_intensity
+	#echo "RED:${COLORS[RED]} GRN:${COLORS[GRN]} BLU:${COLORS[BLU]} (${DIRECTIONS[RED]},${DIRECTIONS[GRN]},${DIRECTIONS[BLU]}) (${COLORSTEPS[RED]},${COLORSTEPS[GRN]},${COLORSTEPS[BLU]})"
+	echo "${COLORS[RED]} ${COLORS[GRN]} ${COLORS[BLU]}" > $BASEDIR/multi_intensity
 
 	# update
-	for i in 0 1 2; do
+	for i in ${!COLORS[*]}; do
 		if [ "${DIRECTIONS[$i]}" = "up" ]; then
 			COLORS[$i]=$((${COLORS[$i]} + ${COLORSTEPS[$i]}))
 		else
